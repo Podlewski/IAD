@@ -38,7 +38,7 @@ class Functions:
         sigma = 0
         for j in range(len(x)):
             for i in range(len(x[j])):
-                sigma += pow((x[j][i] - y[j][i]), 2)
+                sigma += pow(((x[j][i]) - y[j][i]), 2)
         return sigma/(2 * len(x) * len(x[0]))
 
     def checkCondition(it, itVal, err, errVal):
@@ -104,7 +104,7 @@ class Functions:
         labelTitle += extraLabel
         pltE.plot(arrX, arrY, label=labelTitle)
 
-    def drawPlotE(fileName, subTitle, plots):
+    def drawPlotE(fileName, subTitle, plots, showPlot):
         pltE.grid()
         pltE.xlabel('Iteracje')
         pltE.ylabel('Błąd średniokwadratowy')
@@ -123,8 +123,8 @@ class Functions:
 
         pltE.savefig(fileName, format='png', dpi=1000)
 
-    def showPlotE():
-        pltE.show()
+        if showPlot is True:
+            pltE.show()
 
     def addPlotT(query, hidNeurones):
         labelTitle = str(hidNeurones) + ' neurony'
@@ -138,7 +138,7 @@ class Functions:
             arrY.append(np.squeeze(query(arrX[x])))
         pltT.plot(arrX, arrY, label=labelTitle)
 
-    def drawPlotT(fileName, subTitle, plots, arrX, arrY, brrX, brrY):
+    def drawPlotT(fileName, subTitle, plots, arrX, arrY, brrX, brrY, showPlot):
         pltT.grid()
         pltT.xlabel('Oś X')
         pltT.ylabel('Oś Y')
@@ -148,16 +148,17 @@ class Functions:
 
         mainTitle = 'Aproksymacja dla punktów trenignowych'
 
-        pltE.suptitle(mainTitle, fontsize=14, fontweight='bold')
-        pltE.title(subTitle, fontsize=10)
+        pltT.suptitle(mainTitle, fontsize=14, fontweight='bold')
+        pltT.title(subTitle, fontsize=10)
         if 1 < plots:
-            pltE.legend(title='Liczba neuronow\nw warstwie ukrytej:')
+            pltT.legend(title='Liczba neuronow\nw warstwie ukrytej:',
+                        bbox_to_anchor=(0.5, -0.1), ncol=2)
 
         # figure size
-        figure = pltE.gcf()
+        figure = pltT.gcf()
         figure.set_size_inches(10, 5)
 
-        pltE.savefig(fileName, format='png', dpi=1000)
+        pltT.savefig(fileName, format='png', dpi=1000)
 
-    def showPlotT():
-        pltT.show()
+        if showPlot is True:
+            pltT.show()

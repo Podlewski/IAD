@@ -85,9 +85,10 @@ class NeuralNetwork:
         hidZ = np.inner(arrU, self.hWeights) + self.hBias.T
         arrX = self.hActFun(hidZ)
         outZ = np.inner(arrX, self.oWeights) + self.oBias.T
-        return self.oActFun(outZ)
+
+        return (self.oActFun(outZ)[0])
 
     def hiddenQuery(self, arrU):
         arrU = np.array(arrU, ndmin=2)
         hidZ = np.inner(arrU, self.hWeights) + self.hBias.T
-        return self.hActFun(hidZ)
+        return np.squeeze(self.hActFun(hidZ))
