@@ -38,6 +38,8 @@ parser.add_argument('-n', metavar='N', dest='hidNeurones', default=[2],
                     help='specify quaintity N of neurones in hidden layer')
 parser.add_argument('-pe', metavar='FILE', dest='savePlotE', default='',
                     help='save plot(errors) in FILE')
+parser.add_argument('-pl', metavar='FILE', dest='savePlotL', default='',
+                    help='save plot(learning) in FILE (need -i)')
 parser.add_argument('-pt', metavar='FILE', dest='savePlotT', default='',
                     help='save plot(training points) in FILE')
 parser.add_argument('--show', dest='showPlot', action='store_true',
@@ -110,6 +112,12 @@ for n in range(len(args.hidNeurones)):
         errY.append(err)
 
         condition = Fun.checkCondition(it, args.itValue, err, args.erValue)
+
+        if ('' != args.savePlotL) and (0 != args.itValue):
+            if 1 == it:
+                Fun.addPlotL(network.query, it)
+            if (it % (pow(10, args.itValue)/5) == 0):
+                Fun.addPlotL(network.query, it)
 
     if '' != args.saveResults:
         Fun.saveResults(args.saveResults, args.alpha, args.beta,

@@ -1,6 +1,7 @@
 import csv
 import numpy as np
 import matplotlib.pyplot as pltE
+import matplotlib.pyplot as pltL
 import matplotlib.pyplot as pltT
 
 
@@ -126,6 +127,38 @@ class Functions:
         if showPlot is True:
             pltE.show()
 
+    def addPlotL(query, it):
+        if 1 == it:
+            labelTitle = 'Przebieg poczatkowy'
+        else:
+            labelTitle = str(it) + ' iteracji'
+        arrX = np.arange(-4, 4, 0.01)
+        arrY = []
+        for x in range(len(arrX)):
+            arrY.append(np.squeeze(query(arrX[x])))
+        pltL.plot(arrX, arrY, label=labelTitle)
+
+    def drawPlotL(fileName, subTitle, plots, arrX, arrY, brrX, brrY, showPlot):
+        pltL.grid()
+        pltT.xlabel('Oś X')
+        pltT.ylabel('Oś Y')
+
+        mainTitle = 'Zmiana funkcji realizowanej przez sieć w czasie'
+
+        pltT.suptitle(mainTitle, fontsize=14, fontweight='bold')
+        pltT.title(subTitle, fontsize=10)
+        if 1 < plots:
+            pltT.legend(title='Ilość iteracji:')
+
+        # figure size
+        figure = pltT.gcf()
+        figure.set_size_inches(10, 5)
+
+        pltT.savefig(fileName, format='png', dpi=1000)
+
+        if showPlot is True:
+            pltL.show()
+
     def addPlotT(query, hidNeurones):
         labelTitle = str(hidNeurones) + ' neurony'
         if 1 == hidNeurones:
@@ -143,8 +176,8 @@ class Functions:
         pltT.xlabel('Oś X')
         pltT.ylabel('Oś Y')
 
-        pltT.scatter(arrX, arrY, s=5, label='Punkty treningowe')
-        pltT.scatter(brrX, brrY, s=5, label='Punkty testowe')
+        pltT.scatter(arrX, arrY, s=3, color='k', label='Punkty treningowe')
+        pltT.scatter(brrX, brrY, s=0.5, color='c', label='Punkty testowe')
 
         mainTitle = 'Aproksymacja dla punktów trenignowych'
 
