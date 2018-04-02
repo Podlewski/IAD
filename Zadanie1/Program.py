@@ -36,24 +36,21 @@ parser.add_argument('-m', metavar='STEP', dest='beta', default=0, type=float,
 parser.add_argument('-n', metavar='N', dest='hidNeurones', default=[2],
                     type=int, nargs='+',
                     help='specify quaintity N of neurones in hidden layer')
-parser.add_argument('-pe', dest='showPlotE', action='store_true',
-                    help='show plot with error (need -sp to work)')
-parser.add_argument('-pt', dest='showPlotT', action='store_true',
-                    help='show plot with training points')
-parser.add_argument('-sd', metavar='FILE', dest='saveResults', default='',
-                    help='append to FILE data from run: alpha, beta\
-                          and iterations\error')
+parser.add_argument('-pe', metavar='FILE', dest='savePlotE', default='',
+                    help='save plot(errors) in FILE')
+parser.add_argument('-pt', metavar='FILE', dest='savePlotT', default='',
+                    help='save plot(training points) in FILE')
+parser.add_argument('--show', dest='showPlot', action='store_true',
+                    help='show plot (need -pe or -pt)')
 parser.add_argument('-sh', metavar='FILE', dest='saveHidden', default='',
                     help='save outputs from hidden layer in FILE')
-parser.add_argument('-spe', metavar='FILE', dest='savePlotE', default='',
-                    help='save plot(errors) in FILE')
-parser.add_argument('-spt', metavar='FILE', dest='savePlotT', default='',
-                    help='save plot(training points) in FILE')
+parser.add_argument('-sr', metavar='FILE', dest='saveResults', default='',
+                    help='append to FILE data from run: alpha, beta\
+                          and iterations\error')
 parser.add_argument('-q', metavar=('FILE'), dest='querryFile', default='',
                     help='check error using data from FILE')
 parser.add_argument('-Q', dest='extraQuerry', action='store_true',
-                    help='check error using data from FILE and DATA_FILE (need\
-                          -q to work)')
+                    help='check error DATA_FILE too (need -q to work)')
 parser.add_argument('-t', metavar=('FILE'), dest='translate', default='',
                     help='read last column from DATA_FILE and translate\
                     them using FILE')
@@ -70,15 +67,14 @@ else:
     arrU, arrV = Fun.readFile(args.fileName, args.inNeurones, 1)
     Fun.translate(args.translate, arrV)
 
+extraLabel = ''
+
 if '' != args.querryFile:
     qrrU, qrrV = Fun.readFile(args.querryFile, args.inNeurones,
                               args.outNeurones)
     if args.extraQuerry is True:
         args.hidNeurones += args.hidNeurones
         extraLabel = ', dane testowe'
-    else:
-        extraLabel = ''
-
 
 for n in range(len(args.hidNeurones)):
     network = (NN(args.inNeurones, args.hidNeurones[n], args.outNeurones,
@@ -133,15 +129,10 @@ if '' != args.saveHidden:
 
 if '' != args.savePlotE:
     subTitle = Fun.getTitle(args)
-    Fun.drawPlotE(args.savePlotE, subTitle, len(args.hidNeurones))
-
-    if args.showPlotE is True:
-        Fun.showPlotE()
+    Fun.drawPlotE(args.savePlotE, subTitle, len(args.hidNeurones),
+                  args.showPlot)
 
 if '' != args.savePlotT:
     subTitle = Fun.getTitle(args)
     Fun.drawPlotT(args.savePlotT, subTitle, len(args.hidNeurones),
-                  arrU, arrV, qrrU, qrrV)
-
-    if args.showPlotT is True:
-        Fun.showPlotT()
+                  arrU, arrV, qrrU, qrrV, args.showPlot)
