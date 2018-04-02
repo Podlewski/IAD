@@ -151,8 +151,7 @@ class Functions:
         pltT.suptitle(mainTitle, fontsize=14, fontweight='bold')
         pltT.title(subTitle, fontsize=10)
         if 1 < plots:
-            pltT.legend(title='Liczba neuronow\nw warstwie ukrytej:',
-                        bbox_to_anchor=(0.5, -0.1), ncol=2)
+            pltT.legend(title='Liczba neuronow\nw warstwie ukrytej:')
 
         # figure size
         figure = pltT.gcf()
