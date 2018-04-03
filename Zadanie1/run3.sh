@@ -1,4 +1,4 @@
-Wyniki#!/usr/bin/enerrorsv bash
+#!/usr/bin/env bash
 
 # Zadanie 3.1
 ./Program.py Data/transformation.txt 4 4 -n 1 2 3 -a 0.1 -i 4 -pe Wyniki/Wykres3_A1.png --bias
@@ -7,13 +7,13 @@ Wyniki#!/usr/bin/enerrorsv bash
 
 # Zadanie 3.2
 rm -rf Wyniki/Wyniki3_B.txt
-for i in 0.1 0.25 0.5 0.75 1
+for i in 0.1 0.5 1 2 5
 do
   for j in 0 0.0001 0.001 0.01
   do
     for (( k=1; $k <= 5; k++ ))
     do
-      ./Program.py Data/transformation.txt 4 4 -n 2 --bias -a $i -m $j -e 5 -sr Wyniki/Wyniki3_B.txt
+      ./Program.py Data/transformation.txt 4 4 -n 2 -e 4 --bias -a $i -m $j -e 5 -sr Wyniki/Wyniki3_B.txt
     done
   done
 done
