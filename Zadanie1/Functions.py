@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as pltE
 import matplotlib.pyplot as pltL
 import matplotlib.pyplot as pltT
+import math as m
 
 
 class Functions:
@@ -42,13 +43,18 @@ class Functions:
                 sigma += pow(((x[j][i]) - y[j][i]), 2)
         return sigma/(2 * len(x) * len(x[0]))
 
+    def countSD(x, y):
+        sigma = 0
+        for j in range(len(x)):
+            for i in range(len(x[j])):
+                sigma += pow(((x[j][i]) - y[j][i]), 2)
+        return m.sqrt(sigma/(len(x) * len(x[0] - 1)))
+
     def checkCondition(it, itVal, err, errVal):
         if 0 != itVal:
             if it >= pow(10, itVal):
                 return False
         else:
-            '''if it % 10000 == 0:
-                print(pow(10, (-1 * errVal)), ' : ', err)'''
             if err < pow(10, (-1 * errVal)):
                 return False
         return True
@@ -96,6 +102,18 @@ class Functions:
         resFile.write(resMessage)
         resFile.close()
 
+    def saveResultsExtra(fileName, neurones, sDev1, sDev2, itValue, it, error):
+        resFile = open(fileName, 'a')
+        resMessage = str(neurones)
+        if 0 != itValue:
+            resMessage += ' ' + str(error)
+            resMessage += ' ' + str(sDev1) + ' ' + str(sDev2)
+        else:
+            resMessage += ' ' + str(it)
+        resMessage += '\n'
+        resFile.write(resMessage)
+        resFile.close()
+
     def addPlotE(arrX, arrY, hidNeurones, extraLabel):
         labelTitle = str(hidNeurones) + ' neurony'
         if 1 == hidNeurones:
@@ -111,7 +129,7 @@ class Functions:
         pltE.ylabel('Błąd średniokwadratowy')
         pltE.yscale('log')
 
-        mainTitle = 'Zmiana błędu średniokwadratowego w czacie'
+        mainTitle = 'Zmiana błędu średniokwadratowego'
 
         pltE.suptitle(mainTitle, fontsize=14, fontweight='bold')
         pltE.title(subTitle, fontsize=10)
@@ -138,7 +156,7 @@ class Functions:
             arrY.append(np.squeeze(query(arrX[x])))
         pltL.plot(arrX, arrY, label=labelTitle)
 
-    def drawPlotL(fileName, subTitle, plots, arrX, arrY, brrX, brrY, showPlot):
+    def drawPlotL(fileName, subTitle, showPlot):
         pltL.grid()
         pltT.xlabel('Oś X')
         pltT.ylabel('Oś Y')
@@ -147,8 +165,7 @@ class Functions:
 
         pltT.suptitle(mainTitle, fontsize=14, fontweight='bold')
         pltT.title(subTitle, fontsize=10)
-        if 1 < plots:
-            pltT.legend(title='Ilość iteracji:')
+        pltT.legend(title='Ilość iteracji:')
 
         # figure size
         figure = pltT.gcf()
