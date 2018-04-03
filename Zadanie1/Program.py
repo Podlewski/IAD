@@ -43,12 +43,15 @@ parser.add_argument('-pl', metavar='FILE', dest='savePlotL', default='',
 parser.add_argument('-pt', metavar='FILE', dest='savePlotT', default='',
                     help='save plot(training points) in FILE')
 parser.add_argument('--show', dest='showPlot', action='store_true',
-                    help='show plot (need -pe or -pt)')
+                    help='show plot (need -pe, -pl or -pt)')
 parser.add_argument('-sh', metavar='FILE', dest='saveHidden', default='',
                     help='save outputs from hidden layer in FILE')
 parser.add_argument('-sr', metavar='FILE', dest='saveResults', default='',
                     help='append to FILE data from run: alpha, beta\
                           and iterations\error')
+parser.add_argument('-sre', metavar='FILE', dest='saveResultsExtra',
+                    default='', help='append to FILE data from run: neurones\
+                          mse, sd for DATA_TILE and sd for FILE (need -q)')
 parser.add_argument('-q', metavar=('FILE'), dest='querryFile', default='',
                     help='check error using data from FILE')
 parser.add_argument('-Q', dest='extraQuerry', action='store_true',
@@ -123,6 +126,18 @@ for n in range(len(args.hidNeurones)):
         Fun.saveResults(args.saveResults, args.alpha, args.beta,
                         args.itValue, it, err)
 
+    if '' != args.saveResultsExtra:
+        arrE = []
+        for k in range(len(arrU)):
+            arrE.append(network.query(arrU[k]))
+        stanDev1 = Fun.countSD(arrE, arrV)
+        arrE = []
+        for k in range(len(qrrU)):
+            arrE.append(network.query(qrrU[k]))
+        stanDev2 = Fun.countSD(arrE, qrrV)
+        Fun.saveResultsExtra(args.saveResultsExtra, args.hidNeurones[n],
+                             stanDev1, stanDev2, args.itValue, it, err)
+
     if '' != args.savePlotE:
         Fun.addPlotE(errX, errY, args.hidNeurones[n], extraLabel)
 
@@ -139,6 +154,10 @@ if '' != args.savePlotE:
     subTitle = Fun.getTitle(args)
     Fun.drawPlotE(args.savePlotE, subTitle, len(args.hidNeurones),
                   args.showPlot)
+
+if '' != args.savePlotL:
+    subTitle = Fun.getTitle(args)
+    Fun.drawPlotL(args.savePlotL, subTitle, args.showPlot)
 
 if '' != args.savePlotT:
     subTitle = Fun.getTitle(args)
