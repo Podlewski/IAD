@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
 
+<<NAPIS
 # Zadanie 4.1
 ./Program.py Data/approximation_train_1.txt 1 1 -q Data/approximation_test.txt --lino -n 1 5 9 13 17 -i 5 -b -pt Wyniki/Wykres4_A1.png
 ./Program.py Data/approximation_train_2.txt 1 1 -q Data/approximation_test.txt --lino -n 1 5 9 13 17 -i 5 -b -pt Wyniki/Wykres4_A2.png
 
-
 # Zadanie 4.2
-./Program.py Data/approximation_train_1.txt 1 1 -q Data/approximation_test.txt -Q --lino -n 1 5 19 -i 5 -b -pe Wyniki/Wykres4_B1.png
-./Program.py Data/approximation_train_2.txt 1 1 -q Data/approximation_test.txt -Q --lino -n 1 5 19 -i 5 -b -pe Wyniki/Wykres4_B2.png
+./Program.py Data/approximation_train_1.txt 1 1 -q Data/approximation_test.txt -Q --lino -n 1 5 19 -a 0.01 -i 4 -b -pe Wyniki/Wykres4_B1.png
+./Program.py Data/approximation_train_2.txt 1 1 -q Data/approximation_test.txt -Q --lino -n 1 5 19 -a 0.01 -i 4 -b -pe Wyniki/Wykres4_B2.png
+NAPIS
 
 
 # Zadanie 4.3
@@ -23,6 +24,8 @@ do
 done
 
 
+<<NAPIS
 # Zadanie 4.4
 ./Program.py Data/approximation_train_1.txt 1 1 -q Data/approximation_test.txt --lino -n 5 -i 3 -b -pl Wyniki/Wykres4_D1.png
 ./Program.py Data/approximation_train_2.txt 1 1 -q Data/approximation_test.txt --lino -n 5 -i 3 -b -pl Wyniki/Wykres4_D2.png
+NAPIS
