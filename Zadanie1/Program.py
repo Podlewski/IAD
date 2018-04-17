@@ -50,8 +50,8 @@ parser.add_argument('-sr', metavar='FILE', dest='saveResults', default='',
                     help='append to FILE data from run: alpha, beta\
                           and iterations\error')
 parser.add_argument('-sre', metavar='FILE', dest='saveResultsExtra',
-                    default='', help='append to FILE data from run: neurones\
-                          mse, sd for DATA_TILE and sd for FILE (need -q)')
+                    default='', help='append to FILE data from run: neurones, \
+                          mse, sd for DATA_TILE and FILE (need -q and -i)')
 parser.add_argument('-q', metavar=('FILE'), dest='querryFile', default='',
                     help='check error using data from FILE')
 parser.add_argument('-Q', dest='extraQuerry', action='store_true',
@@ -123,20 +123,25 @@ for n in range(len(args.hidNeurones)):
                 Fun.addPlotL(network.query, it)
 
     if '' != args.saveResults:
+        arrE = []
+        for k in range(len(arrU)):
+            arrE.append(network.query(arrU[k]))
+        sd = Fun.countSD(arrE, arrV)
         Fun.saveResults(args.saveResults, args.alpha, args.beta,
-                        args.itValue, it, err)
+                        args.itValue, it, err, sd)
 
-    if '' != args.saveResultsExtra:
+    if ('' != args.saveResultsExtra) and (0 != args.itValue):
         arrE = []
         for k in range(len(arrU)):
             arrE.append(network.query(arrU[k]))
         stanDev1 = Fun.countSD(arrE, arrV)
+        err1 = Fun.countMSE(arrE, arrV)
         arrE = []
         for k in range(len(qrrU)):
             arrE.append(network.query(qrrU[k]))
         stanDev2 = Fun.countSD(arrE, qrrV)
         Fun.saveResultsExtra(args.saveResultsExtra, args.hidNeurones[n],
-                             stanDev1, stanDev2, args.itValue, it, err)
+                             err1, stanDev1, err, stanDev2)
 
     if '' != args.savePlotE:
         Fun.addPlotE(errX, errY, args.hidNeurones[n], extraLabel)

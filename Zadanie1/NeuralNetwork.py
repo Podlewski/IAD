@@ -74,11 +74,15 @@ class NeuralNetwork:
             self.hBias += self.alpha * hErr.T + self.hBiasDelta
 
         if self.beta != 0:
-            self.oWeightsDelta = self.beta * self.alpha * oErr.T * arrX
-            self.hWeightsDelta = self.beta * self.alpha * hErr.T * arrU
+            self.oWeightsDelta = (self.beta * (self.alpha * oErr.T * arrX +
+                                  self.oWeightsDelta))
+            self.hWeightsDelta = (self.beta * (self.alpha * hErr.T * arrU +
+                                  self.hWeightsDelta))
             if self.bias != 0:
-                self.oBiasDelta += self.beta * self.alpha * oErr.T
-                self.hBiasDelta += self.beta * self.alpha * hErr.T
+                self.oBiasDelta += (self.beta * (self.alpha * oErr.T +
+                                    self.oBiasDelta))
+                self.hBiasDelta += (self.beta * (self.alpha * hErr.T +
+                                    self.hBiasDelta))
 
     def query(self, arrU):
         arrU = np.array(arrU, ndmin=2)

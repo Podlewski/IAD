@@ -91,25 +91,22 @@ class Functions:
                           str(np.squeeze(arrW[k])) + '\n')
         hidFile.close()
 
-    def saveResults(fileName, alpha, beta, itValue, it, error):
+    def saveResults(fileName, alpha, beta, itValue, it, error, sd):
         resFile = open(fileName, 'a')
         resMessage = str(alpha) + ' ' + str(beta)
         if 0 != itValue:
             resMessage += ' ' + str(error)
         else:
-            resMessage += ' ' + str(it)
+            resMessage += ' ' + str(it) + ' ' + str(sd)
         resMessage += '\n'
         resFile.write(resMessage)
         resFile.close()
 
-    def saveResultsExtra(fileName, neurones, sDev1, sDev2, itValue, it, error):
+    def saveResultsExtra(fileName, neurones, err1, sDev1, err2, sDev2):
         resFile = open(fileName, 'a')
         resMessage = str(neurones)
-        if 0 != itValue:
-            resMessage += ' ' + str(error)
-            resMessage += ' ' + str(sDev1) + ' ' + str(sDev2)
-        else:
-            resMessage += ' ' + str(it)
+        resMessage += ' ' + str(err1) + ' ' + str(sDev1)
+        resMessage += ' ' + str(err2) + ' ' + str(sDev2)
         resMessage += '\n'
         resFile.write(resMessage)
         resFile.close()
