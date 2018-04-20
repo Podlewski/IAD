@@ -1,3 +1,4 @@
+
 import numpy as np
 import numpy.random as rand
 import scipy.special as ss
@@ -5,8 +6,7 @@ import scipy.special as ss
 
 class NeuralNetwork:
 
-    def __init__(self, inNodes, hidNodes, outNodes, alpha, beta, bias,
-                 outputActivationFun):
+    def __init__(self, inNodes, hidNodes, outNodes, alpha, beta, bias, outputActivationFun):
 
         self.iNodes = inNodes
         self.hNodes = hidNodes
@@ -69,25 +69,24 @@ class NeuralNetwork:
         self.oWeights += self.alpha * oErr.T * arrX + self.oWeightsDelta
         self.hWeights += self.alpha * hErr.T * arrU + self.hWeightsDelta
 
+        self.oWeightsDelta = self.beta * (self.oWeights)
+        self.hWeightsDelta = self.beta * (self.hWeights)
+
         if self.bias != 0:
             self.oBias += self.alpha * oErr.T + self.oBiasDelta
             self.hBias += self.alpha * hErr.T + self.hBiasDelta
 
-        if self.beta != 0:
-            self.oWeightsDelta = self.beta * self.alpha * oErr.T * arrX
-            self.hWeightsDelta = self.beta * self.alpha * hErr.T * arrU
-            if self.bias != 0:
-                self.oBiasDelta += self.beta * self.alpha * oErr.T
-                self.hBiasDelta += self.beta * self.alpha * hErr.T
+            self.oBiasDelta = self.beta * (self.oBias)
+            self.hBiasDelta = self.beta * (self.hBias)
 
     def query(self, arrU):
         arrU = np.array(arrU, ndmin=2)
         hidZ = np.inner(arrU, self.hWeights) + self.hBias.T
         arrX = self.hActFun(hidZ)
         outZ = np.inner(arrX, self.oWeights) + self.oBias.T
-        return self.oActFun(outZ)
+        return (self.oActFun(outZ)[0])
 
     def hiddenQuery(self, arrU):
         arrU = np.array(arrU, ndmin=2)
         hidZ = np.inner(arrU, self.hWeights) + self.hBias.T
-        return self.hActFun(hidZ)
+        return np.squeeze(self.hActFun(hidZ))

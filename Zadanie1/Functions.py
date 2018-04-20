@@ -1,7 +1,9 @@
 import csv
 import numpy as np
 import matplotlib.pyplot as pltE
+import matplotlib.pyplot as pltL
 import matplotlib.pyplot as pltT
+import math as m
 
 
 class Functions:
@@ -38,16 +40,21 @@ class Functions:
         sigma = 0
         for j in range(len(x)):
             for i in range(len(x[j])):
-                sigma += pow((x[j][i] - y[j][i]), 2)
+                sigma += pow(((x[j][i]) - y[j][i]), 2)
         return sigma/(2 * len(x) * len(x[0]))
+
+    def countSD(x, y):
+        sigma = 0
+        for j in range(len(x)):
+            for i in range(len(x[j])):
+                sigma += pow(((x[j][i]) - y[j][i]), 2)
+        return m.sqrt(sigma/(len(x) * len(x[0] - 1)))
 
     def checkCondition(it, itVal, err, errVal):
         if 0 != itVal:
             if it >= pow(10, itVal):
                 return False
         else:
-            '''if it % 10000 == 0:
-                print(pow(10, (-1 * errVal)), ' : ', err)'''
             if err < pow(10, (-1 * errVal)):
                 return False
         return True
@@ -84,13 +91,22 @@ class Functions:
                           str(np.squeeze(arrW[k])) + '\n')
         hidFile.close()
 
-    def saveResults(fileName, alpha, beta, itValue, it, error):
+    def saveResults(fileName, alpha, beta, itValue, it, error, sd):
         resFile = open(fileName, 'a')
         resMessage = str(alpha) + ' ' + str(beta)
         if 0 != itValue:
             resMessage += ' ' + str(error)
         else:
-            resMessage += ' ' + str(it)
+            resMessage += ' ' + str(it) + ' ' + str(sd)
+        resMessage += '\n'
+        resFile.write(resMessage)
+        resFile.close()
+
+    def saveResultsExtra(fileName, neurones, err1, sDev1, err2, sDev2):
+        resFile = open(fileName, 'a')
+        resMessage = str(neurones)
+        resMessage += ' ' + str(err1) + ' ' + str(sDev1)
+        resMessage += ' ' + str(err2) + ' ' + str(sDev2)
         resMessage += '\n'
         resFile.write(resMessage)
         resFile.close()
@@ -104,13 +120,13 @@ class Functions:
         labelTitle += extraLabel
         pltE.plot(arrX, arrY, label=labelTitle)
 
-    def drawPlotE(fileName, subTitle, plots):
+    def drawPlotE(fileName, subTitle, plots, showPlot):
         pltE.grid()
         pltE.xlabel('Iteracje')
         pltE.ylabel('Błąd średniokwadratowy')
         pltE.yscale('log')
 
-        mainTitle = 'Zmiana błędu średniokwadratowego w czacie'
+        mainTitle = 'Zmiana błędu średniokwadratowego'
 
         pltE.suptitle(mainTitle, fontsize=14, fontweight='bold')
         pltE.title(subTitle, fontsize=10)
@@ -123,8 +139,39 @@ class Functions:
 
         pltE.savefig(fileName, format='png', dpi=1000)
 
-    def showPlotE():
-        pltE.show()
+        if showPlot is True:
+            pltE.show()
+
+    def addPlotL(query, it):
+        if 1 == it:
+            labelTitle = 'Przebieg poczatkowy'
+        else:
+            labelTitle = str(it) + ' iteracji'
+        arrX = np.arange(-4, 4, 0.01)
+        arrY = []
+        for x in range(len(arrX)):
+            arrY.append(np.squeeze(query(arrX[x])))
+        pltL.plot(arrX, arrY, label=labelTitle)
+
+    def drawPlotL(fileName, subTitle, showPlot):
+        pltL.grid()
+        pltT.xlabel('Oś X')
+        pltT.ylabel('Oś Y')
+
+        mainTitle = 'Zmiana funkcji realizowanej przez sieć w czasie'
+
+        pltT.suptitle(mainTitle, fontsize=14, fontweight='bold')
+        pltT.title(subTitle, fontsize=10)
+        pltT.legend(title='Ilość iteracji:')
+
+        # figure size
+        figure = pltT.gcf()
+        figure.set_size_inches(10, 5)
+
+        pltT.savefig(fileName, format='png', dpi=1000)
+
+        if showPlot is True:
+            pltL.show()
 
     def addPlotT(query, hidNeurones):
         labelTitle = str(hidNeurones) + ' neurony'
@@ -138,26 +185,26 @@ class Functions:
             arrY.append(np.squeeze(query(arrX[x])))
         pltT.plot(arrX, arrY, label=labelTitle)
 
-    def drawPlotT(fileName, subTitle, plots, arrX, arrY, brrX, brrY):
+    def drawPlotT(fileName, subTitle, plots, arrX, arrY, brrX, brrY, showPlot):
         pltT.grid()
         pltT.xlabel('Oś X')
         pltT.ylabel('Oś Y')
 
-        pltT.scatter(arrX, arrY, s=5, label='Punkty treningowe')
-        pltT.scatter(brrX, brrY, s=5, label='Punkty testowe')
+        pltT.scatter(arrX, arrY, s=3, color='k', label='Punkty treningowe')
+        pltT.scatter(brrX, brrY, s=0.5, color='c', label='Punkty testowe')
 
         mainTitle = 'Aproksymacja dla punktów trenignowych'
 
-        pltE.suptitle(mainTitle, fontsize=14, fontweight='bold')
-        pltE.title(subTitle, fontsize=10)
+        pltT.suptitle(mainTitle, fontsize=14, fontweight='bold')
+        pltT.title(subTitle, fontsize=10)
         if 1 < plots:
-            pltE.legend(title='Liczba neuronow\nw warstwie ukrytej:')
+            pltT.legend(title='Liczba neuronow\nw warstwie ukrytej:')
 
         # figure size
-        figure = pltE.gcf()
+        figure = pltT.gcf()
         figure.set_size_inches(10, 5)
 
-        pltE.savefig(fileName, format='png', dpi=1000)
+        pltT.savefig(fileName, format='png', dpi=1000)
 
-    def showPlotT():
-        pltT.show()
+        if showPlot is True:
+            pltT.show()
