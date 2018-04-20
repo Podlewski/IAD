@@ -1,3 +1,4 @@
+
 import numpy as np
 import numpy.random as rand
 import scipy.special as ss
@@ -5,8 +6,7 @@ import scipy.special as ss
 
 class NeuralNetwork:
 
-    def __init__(self, inNodes, hidNodes, outNodes, alpha, beta, bias,
-                 outputActivationFun):
+    def __init__(self, inNodes, hidNodes, outNodes, alpha, beta, bias, outputActivationFun):
 
         self.iNodes = inNodes
         self.hNodes = hidNodes
@@ -43,12 +43,12 @@ class NeuralNetwork:
         # activation function for output layer
         if outputActivationFun is False:
             self.oActFun = lambda z: ss.expit(z)
-            self.oErrFun = lambda x, y: ((x - y) * y * (1 - y))
+            self.oErrFun = lambda x, y: ((x - y) * x * (1 - x))
         else:
             self.oActFun = lambda z: z
             self.oErrFun = lambda x, y: ((x - y))
 
-    def train(self, arrU, V):
+    def train(self, arrU, arrV):
         arrU = np.array(arrU, ndmin=2)
 
         # arrX - hidden layer output
@@ -60,34 +60,34 @@ class NeuralNetwork:
         Y = self.oActFun(outZ)
 
         # oErr - backward propagation of errors for output layer
-        oErr = self.oErrFun(V, Y)
+        arrV = np.array(arrV)
+        oErr = self.oErrFun(Y, arrV)
 
         # hErr - backward propagation of errors for hidden layer
         sigma = np.inner(oErr, self.oWeights.T)
         hErr = ((sigma * arrX * (1 - arrX)))
 
-        self.oWeights += self.alpha * oErr.T * arrX + self.oWeightsDelta
-        self.hWeights += self.alpha * hErr.T * arrU + self.hWeightsDelta
+        self.oWeights -= self.alpha * oErr.T * arrX + self.oWeightsDelta
+        self.hWeights -= self.alpha * hErr.T * arrU + self.hWeightsDelta
+
+        self.oWeightsDelta = self.beta * (self.alpha * oErr.T * arrX + self.oWeightsDelta)
+        self.hWeightsDelta = self.beta * (self.alpha * hErr.T * arrU + self.hWeightsDelta)
 
         if self.bias != 0:
-            self.oBias += self.alpha * oErr.T + self.oBiasDelta
-            self.hBias += self.alpha * hErr.T + self.hBiasDelta
+            self.oBias -= self.alpha * oErr.T + self.oBiasDelta
+            self.hBias -= self.alpha * hErr.T + self.hBiasDelta
 
-        if self.beta != 0:
-            self.oWeightsDelta = self.beta * self.alpha * oErr.T * arrX
-            self.hWeightsDelta = self.beta * self.alpha * hErr.T * arrU
-            if self.bias != 0:
-                self.oBiasDelta += self.beta * self.alpha * oErr.T
-                self.hBiasDelta += self.beta * self.alpha * hErr.T
+            self.oBiasDelta = self.beta * (self.alpha * oErr.T + self.oBiasDelta)
+            self.hBiasDelta = self.beta * (self.alpha * hErr.T + self.hBiasDelta)
 
     def query(self, arrU):
         arrU = np.array(arrU, ndmin=2)
         hidZ = np.inner(arrU, self.hWeights) + self.hBias.T
         arrX = self.hActFun(hidZ)
         outZ = np.inner(arrX, self.oWeights) + self.oBias.T
-        return self.oActFun(outZ)
+        return (self.oActFun(outZ)[0])
 
     def hiddenQuery(self, arrU):
         arrU = np.array(arrU, ndmin=2)
         hidZ = np.inner(arrU, self.hWeights) + self.hBias.T
-        return self.hActFun(hidZ)
+        return np.squeeze(self.hActFun(hidZ))
