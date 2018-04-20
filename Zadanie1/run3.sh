@@ -8,7 +8,7 @@
 rm -rf Wyniki/Wyniki3_B.txt
 for i in 0.01 0.05 0.1 0.5 1
 do
-  for j in 0 0.00001 0.0001 0.001
+  for j in 0 0.01 0.05 0.1 0.5
   do
     for (( k=1; $k <= 5; k++ ))
     do
