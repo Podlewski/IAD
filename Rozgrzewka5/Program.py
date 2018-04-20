@@ -2,7 +2,7 @@
 
 import math
 import copy as cp
-import numpy as np
+import numpy
 import numpy.random as rand
 import matplotlib.pyplot as plt
 
@@ -132,8 +132,8 @@ plt.clf()
 plt.grid()
 plt.xlabel('Iteracja')
 plt.ylabel('Błąd kwantyzacji')
-errX = np.arange(1, wtaIt+1)
-errY = np.array(wtaError)
+errX = numpy.arange(1, wtaIt+1)
+errY = numpy.array(wtaError)
 plt.plot(errX, errY)
 fileName = 'outWTA.png'
 plt.savefig(fileName, format='png')
@@ -142,8 +142,8 @@ plt.clf()
 plt.grid()
 plt.xlabel('Iteracja')
 plt.ylabel('Błąd kwantyzacji')
-errX = np.arange(1, wtmIt+1)
-errY = np.array(wtmError)
+errX = numpy.arange(1, wtmIt+1)
+errY = numpy.array(wtmError)
 plt.plot(errX, errY)
 fileName = 'outWTM.png'
 plt.savefig(fileName, format='png')
