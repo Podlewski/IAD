@@ -1,10 +1,16 @@
-/Zadanie1/Wyniki/*
 /Rozgrzewka1/
 /Rozgrzewka2/
 /Rozgrzewka3/
+
+/Zadanie1/Wyniki/
+
 /Rozgrzewka5/WTA/
 /Rozgrzewka5/WTM/
 /Rozgrzewka6/Results/
+
+/Zadanie2/ResultsC/
+/Zadanie2/ResultsG/
+/Zadanie2/ResultsK/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
