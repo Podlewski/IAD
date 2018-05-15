@@ -2,7 +2,7 @@ import math
 import numpy as np
 
 
-class Functions:
+class Setter:
 
     # Functions used to generate random training points in shapes specified by user
     def set_shape_pts(self, trrX, trrY, shape, properties):
@@ -95,7 +95,6 @@ class Functions:
             currentY += distance
 
     def set_title(self, algorithm, neurones, shapes_len):
-
         if algorithm == 'K':
             title = '_Koh'
         if algorithm == 'G':
@@ -109,3 +108,5 @@ class Functions:
             title += '_X'
 
         title += '_' + str(shapes_len)
+
+        return title

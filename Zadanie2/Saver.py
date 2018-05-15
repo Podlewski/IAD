@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from scipy.spatial import Voronoi as Vornoi, voronoi_plot_2d as voronoi_plot_2d
 
 
-class Functions:
+class Saver:
 
     def add_quantization_error_plot(self, it, err, neurones):
 

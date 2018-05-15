@@ -94,7 +94,7 @@ class Algorithm:
 
     def kohonen(self, nrrX, nrrY, trrX, trrY, alpha, theta):
         for t in range(len(trrX)):
-            neurone_id = self.A.closest_neurone(nrrX, nrrY, trrX[t], trrY[t])
+            neurone_id = self.closest_neurone(nrrX, nrrY, trrX[t], trrY[t])
 
             for i in range(neurone_id - int(theta), neurone_id + int(theta) + 1):
                 if (i >= 0) and (i < len(nrrX)):
@@ -105,12 +105,9 @@ class Algorithm:
         for t in range(len(trrX)):
             neurones_ranking = self.neurones_ranking(nrrX, nrrY, trrX[t], trrY[t])
 
-            nrrX = nrrX + eta * math.exp((-1 * neurones_ranking) / lambd) * (trrX[t] - nrrX)
-            nrrY = nrrY + eta * math.exp((-1 * neurones_ranking) / lambd) * (trrY[t] - nrrY)
-
-#            for n in range(len(nrrX)):
-#                nrrX[n] = nrrX[n] + eta * math.exp((-1 * neurones_ranking[n]) / lambd) * (trrX[t] - nrrX[n])
-#                nrrY[n] = nrrY[n] + eta * math.exp((-1 * neurones_ranking[n]) / lambd) * (trrY[t] - nrrY[n])
+            for n in range(len(nrrX)):
+                nrrX[n] = nrrX[n] + eta * math.exp((-1 * neurones_ranking[n]) / lambd) * (trrX[t] - nrrX[n])
+                nrrY[n] = nrrY[n] + eta * math.exp((-1 * neurones_ranking[n]) / lambd) * (trrY[t] - nrrY[n])
 
     def neural_gas_olp(self, nrrX, nrrY, trrX, trrY, it):
         eta = 0.05 * pow(0.003 / 0.05, it / 20)
@@ -125,7 +122,7 @@ class Algorithm:
         counter = np.zeros((len(nrrY), 1))
 
         for t in range(len(trrX)):
-            neurone_id = self.A.closest_neurone(nrrX, nrrY, trrX[t], trrY[t])
+            neurone_id = self.closest_neurone(nrrX, nrrY, trrX[t], trrY[t])
             newX[neurone_id] += trrX[t]
             newY[neurone_id] += trrY[t]
             counter[neurone_id] += 1
