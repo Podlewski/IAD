@@ -29,34 +29,30 @@ class Setter:
             self.random_wheel_pts(trrX, trrY, x0, y0, r, training_points_quantity)
 
     def random_circle_pts(self, trrX, trrY, x0, y0, r, maxIt):
-        it = 0
-        for it in range(maxIt):
-            it += 1
-            x = np.random.uniform(x0-r, x0+r)
-            sign = np.random.randint(2)
-            if sign == 0:
-                sign = -1
-            y = sign * math.sqrt(pow(r, 2) - pow(x - x0, 2)) - y0
-            trrX.append(x)
-            trrY.append(y)
+        for i in range(0, maxIt):
+            t = 2 * np.pi * np.random.uniform(0, 1)
+            trrX.append(x0 + r * np.cos(t))
+            trrY.append(x0 + r * np.sin(t))
 
     def random_line_pts(self, trrX, trrY, x1, y1, x2, y2, maxIt):
-        it = 0
         for it in range(maxIt):
-            it += 1
             x = np.random.uniform(x1, x2)
             y = (y2 - y1) / (x2 - x1) * x + (x2 * y1 - x1 * y2) / (x2 - x1)
             trrX.append(x)
             trrY.append(y)
 
     def random_rectangle_pts(self, trrX, trrY, x1, y1, x3, y3, maxIt):
-        it = 0
         for it in range(maxIt):
-            it += 1
             trrX.append(np.random.uniform(x1, x3))
             trrY.append(np.random.uniform(y1, y3))
 
     def random_wheel_pts(self, trrX, trrY, x0, y0, r, maxIt):
+        for i in range(0, maxIt):
+            t = 2 * np.pi * np.random.uniform(0, 1)
+            R = np.random.uniform(0, r)
+            trrX.append(x0 + R * np.cos(t))
+            trrY.append(x0 + R * np.sin(t))
+
         it = 0
         while it < maxIt:
             x = np.random.uniform(x0-r, x0+r)
