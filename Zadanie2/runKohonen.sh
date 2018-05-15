@@ -64,5 +64,5 @@ done
 # Zadanie 1C
 ./Program.py -ak -lp 0.02 0 -sc 0 0 5 222 -n 2 -ch ResultsK/1C -cv ResultsK/1C
 ./Program.py -ak -lp 0.02 0 -sw -5 0 3 111 -sr 2 3 7 -3 111 -n 2 -ch ResultsK/1C -cv ResultsK/1C
-./Program.py -ak -lp 0.02 1 -sc 0 0 5 222 -n 10 -px -ch ResultsK/1C -cv ResultsK/1C
-./Program.py -ak -lp 0.02 1 -sw -5 0 3 111 -sr 2 3 7 -3 111 -n 10 -px -ch ResultsK/1C -cv ResultsK/1C
+./Program.py -ak -lp 0.02 1 -sc 0 0 5 222 -n 10 -nc -ch ResultsK/1C -cv ResultsK/1C
+./Program.py -ak -lp 0.02 1 -sw -5 0 3 111 -sr 2 3 7 -3 111 -n 10 -nc -ch ResultsK/1C -cv ResultsK/1C

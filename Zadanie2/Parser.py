@@ -52,9 +52,8 @@ class Parser:
         self.parser.add_argument('-cv', metavar='FILE', dest='vornoi_chart_file_name', default='',
                                  help='Save chart with Vornoi diagram in FILE')
         self.parser.add_argument('-d', metavar='FILE', dest='data_file_name', default='',
-                                 help='Save both learning parameters, quantization error \
-                                       and standard deviation for it, min & avg inactive \
-                                       neurones and standard deviation for it FILE')
+                                 help='Save both learning parameters, quantization error, \
+                                       min & avg inactive neurones for it FILE')
 
         # other
         self.parser.add_argument('-r', '--area', metavar=('PAR1', 'PAR2'), nargs=2, action='store',
@@ -64,8 +63,8 @@ class Parser:
                                  default=False, help='Line area for starting neurone positions')
         self.parser.add_argument('-rs', action='store_true', dest='symetric_area',
                                  default=False, help='Symetrix area for starting neurone positions')
-        self.parser.add_argument('-px', '--proximity', action='store_true', dest='charts_proximity',
-                                 default=False, help='Show neurones proximity on chart')
+        self.parser.add_argument('-nc', action='store_true', dest='connect_neurones',
+                                 default=False, help='Show connected neurones on chart')
         self.parser.add_argument('--debug', action='store_true', dest='debug',
                                  default=False, help='Show current iteration')
 
@@ -81,31 +80,32 @@ class Parser:
             return self.args.algorithm
 
     def get_lerning_parameters(self):
-        return self.args.learning_parameters[0], self.args.learning_parameters[1]
+        return self.args.learning_parameters
 
     def get_own_learning_parameters(self):
         return self.args.own_learning_parameters
 
     def get_shapes(self):
         shapes = []
+        shapes_settings = []
         if self.args.circle != 0:
             shapes.append('c')
-            shapes.append(self.args.circle)
+            shapes_settings.append(self.args.circle)
         if self.args.line != 0:
             shapes.append('l')
-            shapes.append(self.args.line)
+            shapes_settings.append(self.args.line)
         if self.args.rectangle != 0:
             shapes.append('r')
-            shapes.append(self.args.rectangle)
+            shapes_settings.append(self.args.rectangle)
         if self.args.wheel != 0:
             shapes.append('w')
-            shapes.append(self.args.wheel)
+            shapes_settings.append(self.args.wheel)
 
         if len(shapes) == 0:
             self.parser.print_usage()
             sys.exit("Exercise 2: error: You must specify at least 1 shape")
         else:
-            return shapes
+            return shapes, shapes_settings
 
     def get_area_settings(self):
         return self.args.area, self.args.line_area, self.args.symetric_area
@@ -117,7 +117,7 @@ class Parser:
         return err, his, vor
 
     def get_charts_settings(self):
-        return self.args.charts_proximity
+        return self.args.connect_neurones
 
     def get_neurones(self):
         return self.args.neurones
