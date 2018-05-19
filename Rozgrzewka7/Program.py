@@ -1,53 +1,52 @@
 #!/usr/bin/python
 
-import math
+import math as m
 import numpy as np
 import numpy.random as rand
 import matplotlib.pyplot as plt
 import sys
 
 
-def d(x, y):
-    return math.fabs(x-y)
+def k(d, sigm):
+    exp = m.exp(-1 * m.pow(d, 2) / (2 * m.pow(sigm, 2)))
+    return float(1 / (m.sqrt(2 * m.pi) * sigm) * exp)
 
 
-def k(x, c, s):
-    exp = math.exp(-1*d(x, c)*d(x, c)/2*s*s)
-    return float(1/(math.sqrt(2*math.pi)*s) * exp)
+c = int(sys.argv[1])
 
+arrC = np.empty(c)
+arrS = np.empty(c)
+arrW = np.empty(c)
+w0 = rand.uniform(-4, 4)
 
-def f(w0, x, arrC, arrS, arrW):
-    suma = 0
-    for c in range(len(arrC)):
-        suma += arrW[c] * k(x, arrC[c], arrS[c])
-    return w0 + suma
-
-
-arrC = []
-arrS = []   # sigma
-arrW = []   # wages
-w0 = rand.uniform(-4, 5)
-
-for c in range(int(sys.argv[1])):
-    arrC.append(rand.uniform(0, 11))
-    arrW.append(rand.uniform(-4, 5))
-    arrS.append(rand.uniform(0, 1))
+for i in range(0, c):
+    arrC[i] = rand.uniform(0, 10)
+    arrS[i] = 0.2
+    arrW[i] = rand.uniform(-4, 4)
 
 arrX = np.linspace(0, 10, 1001)
-arrY = np.zeros((1001, 1))
+arrY = np.zeros(1001)
+
 
 for i in range(len(arrC)):
-    y = []
+    y = np.empty(1001)
     for x in range(len(arrX)):
-        y.append(f(w0, arrX[x], arrC, arrS, arrW))
+        d = m.fabs(arrX[x] - arrC[i])
+        y[x] = w0 + arrW[i] * k(d, arrS[i])
+    y = np.array(y)
     plt.plot(arrX, y, color='r')
-    arrY += y
 
-plt.clf()
+for x in range(len(arrX)):
+    sum = 0
+    for i in range(len(arrC)):
+        d = m.fabs(arrX[x] - arrC[i])
+        sum += arrW[i] * k(d, arrS[i])
+    arrY[x] = w0 + sum
+
+plt.plot(arrX, arrY, color='k')
+
 plt.tight_layout()
 plt.grid()
 
-# plt.plot(arrX, arrY, color='k')
-
-fileName = 'Results.png'
+fileName = 'out' + str(c) + '.png'
 plt.savefig(fileName, format='png')
