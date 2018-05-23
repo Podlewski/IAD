@@ -21,7 +21,7 @@ w0 = rand.uniform(-4, 4)
 
 for i in range(0, c):
     arrC[i] = rand.uniform(0, 10)
-    arrS[i] = 0.2
+    arrS[i] = rand.uniform(0.5, 1)
     arrW[i] = rand.uniform(-4, 4)
 
 arrX = np.linspace(0, 10, 1001)
