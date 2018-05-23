@@ -59,6 +59,8 @@ class Parser:
         self.parser.add_argument('-r', '--area', metavar=('PAR1', 'PAR2'), nargs=2, action='store',
                                  dest='area', type=float, default=[-10, 10],
                                  help='Set area range for starting neurones position')
+        self.parser.add_argument('-rf', action='store_true', dest='figure_area',
+                                 default=False, help='1st figure area for starting neurone positions')
         self.parser.add_argument('-rl', action='store_true', dest='line_area',
                                  default=False, help='Line area for starting neurone positions')
         self.parser.add_argument('-rs', action='store_true', dest='symetric_area',
@@ -108,7 +110,7 @@ class Parser:
             return shapes, shapes_settings
 
     def get_area_settings(self):
-        return self.args.area, self.args.line_area, self.args.symetric_area
+        return self.args.area, self.args.line_area, self.args.symetric_area, self.args.figure_area
 
     def get_charts_file_name(self):
         err = self.args.error_chart_file_name

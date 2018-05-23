@@ -15,7 +15,7 @@ Set = Setter()
 Par.parse()
 
 algorithm = Par.get_algorithm()
-area_range, line_area, symetric_area = Par.get_area_settings()
+area_range, line_area, symetric_area, figure_area = Par.get_area_settings()
 connect_neurones = Par.get_charts_settings()
 data_fn = Par.get_data_file_name()
 debug = Par.get_debug()
@@ -49,12 +49,15 @@ for n in range(len(neurones)):
     nrrY = []
 
     # starting neuornes position
-    if (line_area is False) and (symetric_area is False):
+    if (line_area is False) and (symetric_area is False) and (figure_area is False):
         Set.random_neurones_position(nrrX, nrrY, neurones[n], area_range)
     if line_area is True:
         Set.line_neurones_position(nrrX, nrrY, neurones[n])
     if symetric_area is True:
         Set.symmetric_neurones_position(nrrX, nrrY, neurones[n])
+    if figure_area is True:
+        shapes_settings[0][-1] = neurones[n]
+        Set.set_shape_pts(nrrX, nrrY, shapes[0], shapes_settings[0])
 
     # if user want to plot will all past neuornes positions
     if history_cfn != '':

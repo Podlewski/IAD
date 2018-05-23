@@ -86,9 +86,9 @@ class Setter:
             currentY -= distance
 
         for i in range(int(quantity / 2)):
+            currentY += distance
             nrrX.append(5)
             nrrY.append(currentY)
-            currentY += distance
 
     def set_title(self, algorithm, neurones, shapes_len):
         if algorithm == 'K':

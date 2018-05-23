@@ -73,8 +73,14 @@ class Algorithm:
         oldX = cp.deepcopy(nrrX)
         oldY = cp.deepcopy(nrrY)
 
+        if algorithm == 'R':
+            self.kohonen_rec(nrrX, nrrY, trrX, trrY, parameters[0], parameters[1])
+
         if algorithm == 'K':
-            self.kohonen(nrrX, nrrY, trrX, trrY, parameters[0], parameters[1])
+            if olp is True:
+                self.kohonen_gauss_olp(nrrX, nrrY, trrX, trrY, it)
+            else:
+                self.kohonen_gauss(nrrX, nrrY, trrX, trrY, parameters[0], parameters[1])
 
         if algorithm == 'G':
             if olp is True:
@@ -92,7 +98,7 @@ class Algorithm:
 
         return inactive_neurones
 
-    def kohonen(self, nrrX, nrrY, trrX, trrY, alpha, theta):
+    def kohonen_rec(self, nrrX, nrrY, trrX, trrY, alpha, theta):
         for t in range(len(trrX)):
             neurone_id = self.closest_neurone(nrrX, nrrY, trrX[t], trrY[t])
 
@@ -100,6 +106,22 @@ class Algorithm:
                 if (i >= 0) and (i < len(nrrX)):
                     nrrX[i] = nrrX[i] + alpha * (trrX[t] - nrrX[i])
                     nrrY[i] = nrrY[i] + alpha * (trrY[t] - nrrY[i])
+
+    def kohonen_gauss(self, nrrX, nrrY, trrX, trrY, eta, lambd):
+        for t in range(len(trrX)):
+            neurone_id = self.closest_neurone(nrrX, nrrY, trrX[t], trrY[t])
+
+            for i in range(len(nrrX)):
+                d = math.fabs(neurone_id - i)
+                g = math.exp(-1 * math.pow(d, 2) / (2 * lambd * lambd))
+                nrrY[i] = nrrY[i] + eta * g * (trrY[t] - nrrY[i])
+                nrrX[i] = nrrX[i] + eta * g * (trrX[t] - nrrX[i])
+
+    def kohonen_gauss_olp(self, nrrX, nrrY, trrX, trrY, it):
+        eta = 0.05
+        lambd = math.exp(-1 * it/2)
+
+        self.kohonen_rec(nrrX, nrrY, trrX, trrY, eta, lambd)
 
     def neural_gas(self, nrrX, nrrY, trrX, trrY, eta, lambd):
         for t in range(len(trrX)):
@@ -114,7 +136,7 @@ class Algorithm:
         tmp = len(nrrX) / 2
         lambd = (tmp * pow(0.01 / tmp, it / 20))/2
 
-        self.train(nrrX, nrrY, trrX, trrY, eta, lambd)
+        self.neural_gas(nrrX, nrrY, trrX, trrY, eta, lambd)
 
     def km_clustering(self, nrrX, nrrY, trrX, trrY):
         newX = np.zeros((len(nrrX), 1))
