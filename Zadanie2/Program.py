@@ -24,6 +24,7 @@ learning_parameters = Par.get_lerning_parameters()
 neurones = Par.get_neurones()
 own_learning_parameters = Par.get_own_learning_parameters()
 shapes, shapes_settings = Par.get_shapes()
+tiredness = Par.get_neurones_tiredness()
 
 # get name_suffix
 name_suffix = Set.set_title(algorithm, neurones, len(shapes))
@@ -82,7 +83,7 @@ for n in range(len(neurones)):
 
         quantization_error.append(Alg.count_error(nrrX, nrrY, trrX, trrY))
 
-        inactive_neurones = Alg.train(algorithm, nrrX, nrrY, trrX, trrY,
+        inactive_neurones = Alg.train(algorithm, nrrX, nrrY, tiredness, trrX, trrY,
                                       learning_parameters, iteration, own_learning_parameters)
 
         avg_inactive_neurones += inactive_neurones
@@ -93,6 +94,9 @@ for n in range(len(neurones)):
         # eventually setting new min_inactive_neurones
         if min_inactive_neurones > inactive_neurones:
             min_inactive_neurones = inactive_neurones
+
+        if iteration == 125:
+            inactive_neurones = neurones[n]
 
     avg_inactive_neurones /= iteration
 

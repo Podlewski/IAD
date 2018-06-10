@@ -18,7 +18,9 @@ class Parser:
         self.parser.add_argument('-ag', action='store_const', dest='algorithm',
                                  help='Neural Gas Algorithm', const='G')
         self.parser.add_argument('-ak', action='store_const', dest='algorithm',
-                                 help='Kohonen Algorithm', const='K')
+                                 help='Kohonen Algorithm with Gauss', const='K')
+        self.parser.add_argument('-ar', action='store_const', dest='algorithm',
+                                 help='Kohonen Algorithm with rectange', const='R')
 
         # neurones quantity, learning parameters
         self.parser.add_argument('-n', metavar='Q', dest='neurones', default=[2], type=int,
@@ -56,6 +58,8 @@ class Parser:
                                        min & avg inactive neurones for it FILE')
 
         # other
+        self.parser.add_argument('-t', action='store_true', dest='neuones_tiredness',
+                                 default=False, help='Add neurones tiredness')
         self.parser.add_argument('-r', '--area', metavar=('PAR1', 'PAR2'), nargs=2, action='store',
                                  dest='area', type=float, default=[-10, 10],
                                  help='Set area range for starting neurones position')
@@ -123,6 +127,9 @@ class Parser:
 
     def get_neurones(self):
         return self.args.neurones
+
+    def get_neurones_tiredness(self):
+        return self.args.neuones_tiredness
 
     def get_data_file_name(self):
         return self.args.data_file_name

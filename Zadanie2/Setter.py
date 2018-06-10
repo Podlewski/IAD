@@ -91,8 +91,10 @@ class Setter:
             nrrY.append(currentY)
 
     def set_title(self, algorithm, neurones, shapes_len):
+        if algorithm == 'R':
+            title = '_Koh_R'
         if algorithm == 'K':
-            title = '_Koh'
+            title = '_Koh_G'
         if algorithm == 'G':
             title = '_NG'
         if algorithm == 'C':
