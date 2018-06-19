@@ -16,11 +16,11 @@ class Algorithm:
         closest_neurone_id = 0
         for n in range(len(nrrX)):
             distance = math.sqrt(pow((nrrX[n] - tX), 2) + pow((nrrY[n] - tY), 2))
-            if (distance < distance_min and self.prr[n] > self.p_min):
+            if (distance < distance_min and self.prr[n] > self.p_hold):
                 distance_min = distance
                 closest_neurone_id = n
 
-        self.prr[closest_neurone_id] = self.prr[closest_neurone_id] - self.p_min
+        self.prr[closest_neurone_id] = max(self.prr[closest_neurone_id] - self.p_hold, self.p_min)
         for p in range(len(self.prr)):
             if (p != closest_neurone_id):
                 self.prr[p] = min(self.p_max, self.prr[p] + self.p_diff)
@@ -57,10 +57,11 @@ class Algorithm:
     '''
     def set_tiredness(self, tiredness, neurones, algorithm):
         if (tiredness is True):
-            self.p_min = 0.9
+            self.p_hold = 0.85
         else:
-            self.p_min = 0
+            self.p_hold = 0
         self.p_max = 1
+        self.p_min = 0
         self.p_diff = 1/len(neurones)
 
         self.prr = np.ones(len(neurones))
@@ -106,7 +107,7 @@ class Algorithm:
     def train(self, algorithm, nrrX, nrrY, tiredness, trrX, trrY, parameters, it, olp):
         inactive_neurones = 0
 
-        self.set_tiredness(tiredness, nrrX, algorithm)
+        self.set_tiredness(tiredness, nrrX)
 
         oldX = cp.deepcopy(nrrX)
         oldY = cp.deepcopy(nrrY)
