@@ -20,10 +20,8 @@ class Parser:
                                  help='specify quantity of neurones')
 
         # stop condition
-        self.parser.add_argument('-e', metavar='VALUE', dest='err_val', default=4, type=int,
-                                 help='stop training when 10^-VALUE is bigger than error')
-        self.parser.add_argument('-i', metavar='VALUE', dest='it_val', default=0, type=int,
-                                 help='stop training after 10^VALUE iterations (overwrites -e)')
+        self.parser.add_argument('-i', metavar='VALUE', dest='iterations', default=25, type=int,
+                                 help='stop training after VALUE iterations (25 by default)')
 
         # save args
         self.parser.add_argument('-p', metavar='FILE', dest='plot', default='',
