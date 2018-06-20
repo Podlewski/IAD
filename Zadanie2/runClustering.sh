@@ -46,5 +46,5 @@ done
 # Zadanie 2C
 ./Program.py -ac -sc 0 0 5 222 -n 2 -ch Results/2C -cv Results/2C
 ./Program.py -ac -sw -5 0 3 111 -sr 2 3 7 -3 111 -n 2 -ch Results/2C -cv Results/2C
-./Program.py -ac -sc 0 0 5 222 -n 10 -ch Results/2C -cv Results/2C
-./Program.py -ac -sw -5 0 3 111 -sr 2 3 7 -3 111 -n 10 -ch Results/2C -cv Results/2C
+./Program.py -ac -sc 0 0 5 222 -n 10 -t -ch Results/2C -cv Results/2C
+./Program.py -ac -sw -5 0 3 111 -sr 2 3 7 -3 111 -n 10 -r 8 8 -t -ch Results/2C -cv Results/2C

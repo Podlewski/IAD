@@ -55,5 +55,5 @@ done
 # Zadanie 1C
 ./Program.py -ag -olp -sc 0 0 5 222 -n 2 -ch Results/1C -cv Results/1C
 ./Program.py -ag -olp -sw -5 0 3 111 -sr 2 3 7 -3 111 -n 2 -ch Results/1C -cv Results/1C
-./Program.py -ag -olp -sc 0 0 5 222 -n 10 -ch Results/1C -cv Results/1C
-./Program.py -ag -olp -sw -5 0 3 111 -sr 2 3 7 -3 111 -n 10 -ch Results/1C -cv Results/1C
+./Program.py -ag -olp -sc 0 0 5 222 -n 10 -r 8 8 -t -ch Results/1C -cv Results/1C
+./Program.py -ag -olp -sw -5 0 3 111 -sr 2 3 7 -3 111 -n 10 -r 8 8 -t -ch Results/1C -cv Results/1C

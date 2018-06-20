@@ -55,7 +55,7 @@ class Algorithm:
 
         Przyjmuje:  wartosc true/false, ilosc neuronow i algorytm
     '''
-    def set_tiredness(self, tiredness, neurones, algorithm):
+    def set_tiredness(self, tiredness, neurones):
         if (tiredness is True):
             self.p_hold = 0.85
         else:

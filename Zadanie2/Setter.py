@@ -51,16 +51,7 @@ class Setter:
             t = 2 * np.pi * np.random.uniform(0, 1)
             R = np.random.uniform(0, r)
             trrX.append(x0 + R * np.cos(t))
-            trrY.append(x0 + R * np.sin(t))
-
-        it = 0
-        while it < maxIt:
-            x = np.random.uniform(x0-r, x0+r)
-            y = np.random.uniform(y0-r, y0+r)
-            if math.sqrt(pow(x0 - x, 2) + pow(y0 - y, 2)) <= r:
-                it += 1
-                trrX.append(x)
-                trrY.append(y)
+            trrY.append(y0 + R * np.sin(t))
 
     def random_neurones_position(self, nrrX, nrrY, quaintity, area_range):
         for i in range(quaintity):

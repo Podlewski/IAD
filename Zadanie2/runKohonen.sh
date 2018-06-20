@@ -53,7 +53,7 @@ done
 
 
 # Zadanie 1C
-./Program.py -ak -lp 0.02 0 -sc 0 0 5 222 -n 2 -ch Results/1C -cv Results/1C
-./Program.py -ak -lp 0.02 0 -sw -5 0 3 111 -sr 2 3 7 -3 111 -n 2 -ch Results/1C -cv Results/1C
-./Program.py -ak -lp 0.02 1 -sc 0 0 5 222 -n 10 -nc -ch Results/1C -cv Results/1C
-./Program.py -ak -lp 0.02 1 -sw -5 0 3 111 -sr 2 3 7 -3 111 -n 10 -nc -ch Results/1C -cv Results/1C
+./Program.py -ak -lp 0.03 0.3 -sc 0 0 5 222 -n 2 -ch Results/1C -cv Results/1C
+./Program.py -ak -lp 0.03 0.3 -sw -5 0 3 111 -sr 2 3 7 -3 111 -n 2 -ch Results/1C -cv Results/1C
+./Program.py -ak -lp 0.03 0.5 -sc 0 0 5 222 -n 10 -nc -t -ch Results/1C -cv Results/1C
+./Program.py -ak -lp 0.03 0.5 -sw -5 0 3 111 -sr 2 3 7 -3 111 -n 10 -nc -t -ch Results/1C -cv Results/1C
