@@ -17,16 +17,12 @@ for n in range(len(args.neurones)):
     it = 0
     condition = True
 
-    while condition is True:
+    while it < args.iterations:
         it += 1
-
         rbf.train(train_x, train_y)
-        err = rbf.error(test_x, test_y)
 
-        condition = Fun.checkCondition(it, args.it_val, err, args.err_val)
-
-        if ('' != args.hist_plot) and (0 != args.it_val) and ("" == args.plot):
-            if ((it % (pow(10, args.it_val)/5) == 0) or it == 1):
+        if ('' != args.hist_plot) and ("" == args.plot):
+            if ((it % (args.iterations/5) == 0) or it == 1):
                 Fun.add_plot(rbf.f, it, False)
 
     if "" != args.plot:
